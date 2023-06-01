@@ -1,6 +1,6 @@
 export const ProductItem = ({ img, title, content }) => {
   return (
-    <div className="border-[1px] border-[#EBEBFF] rounded-[10px] p-[20px] shadow-lg flex items-center relative">
+    <div className="border-[1px] border-[#EBEBFF] rounded-[10px] p-[20px] shadow-lg flex items-center relative cursor-pointer">
       <img className="ml-6" src={img} width={100}></img>
 
       <div className="ml-6">
