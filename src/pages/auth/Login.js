@@ -15,7 +15,7 @@ export const Login = () => {
           </p>
           <p>
             <label>Password: </label>
-            <input className="border-[1px] border-black w-full" />
+            {/* <input className="border-[1px] border-black w-full" /> */}
           </p>
         </main>
         <footer>
