@@ -12,7 +12,7 @@ import setting1 from "../assets/setting.png";
 import setting2 from "../assets/setting1.png";
 import logout from "../assets/logout.png";
 import { store } from "../Store";
-import { Btn } from "./Btn";
+import Btn from "./Btn";
 import usePath from "react-use-path";
 
 export const SideBar = () => {
@@ -28,13 +28,21 @@ export const SideBar = () => {
       </div>
 
       <div>
-        <Btn id="Home" icon1={Home1} icon2={Home2} text={"Home"} link="/dashboard/home" />
+        <Btn
+          id="Home"
+          icon1={Home1}
+          icon2={Home2}
+          text={"Home"}
+          link="/dashboard/home"
+          islogout="false"
+        />
         <Btn
           id="My Store"
           icon1={mystore1}
           icon2={mystore2}
           text={"My Store"}
           link="/dashboard/mystore"
+          islogout="false"
         />
         <Btn
           id="Revenue"
@@ -42,6 +50,7 @@ export const SideBar = () => {
           icon2={revenue2}
           text={"Revenue"}
           link="/dashboard/revenue"
+          islogout="false"
         />
         <Btn
           id="integrations"
@@ -49,6 +58,7 @@ export const SideBar = () => {
           icon2={integrations1}
           text={"Integrations"}
           link="/dashboard/integrations"
+          islogout="false"
         />
         <Btn
           id="setting"
@@ -56,13 +66,15 @@ export const SideBar = () => {
           icon2={setting1}
           text={"Settings"}
           link="/dashboard/settings"
+          islogout="false"
         />
         <Btn
           id="logout"
           icon1={logout}
           icon2={logout}
           text={"Logout"}
-          link="/dashboard/signin"
+          link="/login"
+          islogout="ture"
         />
       </div>
     </div>

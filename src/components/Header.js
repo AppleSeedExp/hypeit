@@ -20,7 +20,7 @@ import integrations2 from "../assets/integrations2.png";
 import setting1 from "../assets/setting.png";
 import setting2 from "../assets/setting1.png";
 import logout from "../assets/logout.png";
-import { Btn } from "./Btn";
+import Btn from "./Btn";
 
 export const Header = () => {
   const [header, setHeader] = store.useState("Header");
