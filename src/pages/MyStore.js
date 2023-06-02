@@ -39,9 +39,7 @@ import phone from "../assets/phone.png";
 
 import { Modal } from "@material-ui/core";
 import { useState } from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -56,6 +54,8 @@ export const MyStore = () => {
 
   const [modal, setModal, updateOpen] = store.useState("ProductItemModal");
 
+  const [linkName, setLinkName] = useState("");
+
   const handleClose = () =>
     setModal({
       Open: false,
@@ -63,7 +63,11 @@ export const MyStore = () => {
 
   const Upload = () => {
     handleClose();
-    alert(document.getElementById("inputvalue").value);
+  };
+
+  const onChange = (e) => {
+    setLinkName(e.target.value);
+    console.log(linkName);
   };
 
   useEffect(() => {
@@ -291,7 +295,7 @@ export const MyStore = () => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
-            <Box sx={style}>
+            <div style={style}>
               {/* <Typography id="modal-modal-title" variant="h6" component="h2">
                 Text in a modal
               </Typography>
@@ -304,11 +308,14 @@ export const MyStore = () => {
               <input
                 className="border-black border-[2px]"
                 id="inputvalue"
+                type="text"
+                value={linkName}
+                onChange={onChange}
               ></input>
               <button className="border-black border-[2px]" onClick={Upload}>
                 Upload
               </button>
-            </Box>
+            </div>
           </Modal>
 
           <ProductItem
