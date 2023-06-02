@@ -40,21 +40,14 @@ import phone from "../assets/phone.png";
 import { Modal } from "@material-ui/core";
 import { useState } from "react";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  p: 4,
-};
 export const MyStore = () => {
   const [header, setHeader, updateHeader] = store.useState("Header");
 
   const [modal, setModal, updateOpen] = store.useState("ProductItemModal");
 
   const [linkName, setLinkName] = useState("");
+
+  const [image, setImage] = useState(null);
 
   const handleClose = () =>
     setModal({
@@ -68,6 +61,10 @@ export const MyStore = () => {
   const onChange = (e) => {
     setLinkName(e.target.value);
     console.log(linkName);
+  };
+
+  const UploadImage = (e) => {
+    setImage(e.target.files[0]);
   };
 
   useEffect(() => {
@@ -295,26 +292,69 @@ export const MyStore = () => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
-            <div style={style}>
-              {/* <Typography id="modal-modal-title" variant="h6" component="h2">
-                Text in a modal
-              </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              </Typography> */}
+            <div
+              // style={style}
+              className="absolute top-[50%] left-[50%] w-[500px] transform translate-x-[-50%] translate-y-[-50%] bg-white p-[30px]"
+            >
+              {/*
+              const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  p: 4,
+};
+              
+              */}
 
               <div className="">{modal.title}</div>
 
-              <input
-                className="border-black border-[2px]"
-                id="inputvalue"
-                type="text"
-                value={linkName}
-                onChange={onChange}
-              ></input>
-              <button className="border-black border-[2px]" onClick={Upload}>
-                Upload
-              </button>
+              <div className="flex gap-2">
+                <div className="w-[250px]">
+                  <div className="w-[200px] h-[200px] rounded-[100px] border-black border-[1px]">
+                    {image ? (
+                      <img
+                        src={URL.createObjectURL(image)}
+                        className="w-[200px] h-[200px] rounded-[100px]"
+                      ></img>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/jpeg, image/png, image/jpg"
+                    onChange={UploadImage}
+                  />
+                  {/* <output></output> */}
+                </div>
+
+                <div>
+                  <span>title</span>
+                  <input
+                    className="border-black border-[2px]"
+                    type="text"
+                  ></input>
+                  <span>link</span>
+
+                  <input
+                    className="border-black border-[2px]"
+                    id="inputvalue"
+                    type="text"
+                    value={linkName}
+                    onChange={onChange}
+                  ></input>
+
+                  <button
+                    className="border-black border-[2px]"
+                    onClick={Upload}
+                  >
+                    Upload
+                  </button>
+                </div>
+              </div>
             </div>
           </Modal>
 
