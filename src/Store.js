@@ -4,6 +4,10 @@ export const store = createStore();
 
 const Store = {
   Header: null,
+  ProductItemModal: {
+    Open: false,
+    title: {},
+  },
 };
 
 const keys = Object.keys(Store);

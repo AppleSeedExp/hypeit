@@ -37,8 +37,35 @@ import external from "../assets/url.png";
 import hype from "../assets/hype.png";
 import phone from "../assets/phone.png";
 
+import { Modal } from "@material-ui/core";
+import { useState } from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  p: 4,
+};
 export const MyStore = () => {
   const [header, setHeader, updateHeader] = store.useState("Header");
+
+  const [modal, setModal, updateOpen] = store.useState("ProductItemModal");
+
+  const handleClose = () =>
+    setModal({
+      Open: false,
+    });
+
+  const Upload = () => {
+    handleClose();
+    alert(document.getElementById("inputvalue").value);
+  };
+
   useEffect(() => {
     setHeader("My Store");
   }, []);
@@ -258,6 +285,32 @@ export const MyStore = () => {
         </>
       ) : (
         <div className="grid gap-[20px] sm:grid-cols-2 justify-around w-full">
+          <Modal
+            open={modal.Open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              {/* <Typography id="modal-modal-title" variant="h6" component="h2">
+                Text in a modal
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              </Typography> */}
+
+              <div className="">{modal.title}</div>
+
+              <input
+                className="border-black border-[2px]"
+                id="inputvalue"
+              ></input>
+              <button className="border-black border-[2px]" onClick={Upload}>
+                Upload
+              </button>
+            </Box>
+          </Modal>
+
           <ProductItem
             img={collet}
             title="Collect Emails / Applications"
