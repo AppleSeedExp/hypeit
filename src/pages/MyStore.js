@@ -56,6 +56,7 @@ export const MyStore = () => {
 
   const { linkURL, title } = formData;
 
+  const [imageURL, setImageURL] = useState(null);
   const [image, setImage] = useState(null);
 
   const handleClose = () =>
@@ -84,29 +85,27 @@ export const MyStore = () => {
 
   const UploadImage = (e) => {
     setImage(e.target.files[0]);
+    setImageURL(URL.createObjectURL(e.target.files[0]));
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
   };
 
+  let t_stores;
+
+  async function GetAllStores() {
+    t_stores = await api.get("/store/getAllStore");
+
+    console.log("res: ", t_stores.data);
+
+    setStores(t_stores.data);
+  }
+
   useEffect(() => {
-    if (header == "My Store") {
-      let t_stores;
-
-      async function GetAllStores() {
-        t_stores = await api.get("/store/getAllStore");
-
-        console.log("res: ", t_stores.data);
-
-        setStores(t_stores.data);
-      }
-
-      GetAllStores();
-    } else {
-      setHeader("My Store");
-    }
-  }, [header]);
+    setHeader("My Store");
+    GetAllStores();
+  }, []);
   return (
     <div className="p-[20px] flex">
       {header == "My Store" ? (
@@ -143,7 +142,7 @@ export const MyStore = () => {
               />
             ))}
 
-            <StoreItem
+            {/* <StoreItem
               img={website}
               title="Official Website"
               price="FREE"
@@ -165,20 +164,20 @@ export const MyStore = () => {
               img={videoaudit}
               title="Video Audit"
               price="$50.00"
-              icon={box}
+              icon={box}              
             />
             <StoreItem
               img={coaching}
               title="1:1 Coaching Call"
               price="$200.00"
               icon={calender}
-            />
-            <StoreItem
+            /> */}
+            {/* <StoreItem
               img={steps}
               title="10 Steps to better content"
               price="$200.00"
               icon={mail}
-            />
+            /> */}
             <div
               className="btn mt-6 flex justify-center items-center rounded-[10px]"
               onClick={() => {
@@ -357,7 +356,7 @@ export const MyStore = () => {
                   <div className="w-[200px] h-[200px] rounded-[100px] border-black border-[1px]">
                     {image ? (
                       <img
-                        src={image}
+                        src={imageURL}
                         className="w-[200px] h-[200px] rounded-[100px]"
                       ></img>
                     ) : (
