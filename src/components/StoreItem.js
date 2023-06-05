@@ -7,15 +7,21 @@ import deletei from "../assets/delete.png";
 
 import Modal from "react-modal";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { fileDownload as download } from "js-file-download";
 
 export const StoreItem = ({ img, title, price, icon }) => {
   const [show, setShow] = useState(false);
 
+  useEffect(() => {
+    // let data;
+    // download(data, img);
+  }, []);
+
   return (
     <div className="border-[1px] border-[#EBEBFF] rounded-[10px] p-[20px] shadow-lg flex items-center relative">
       <img src={option}></img>
-      <img className="ml-6" src={img} width={60}></img>
+      <img className="ml-6" src={`/images/${img}`} width={60}></img>
 
       <div className="ml-6">
         <div className="flex items-center">

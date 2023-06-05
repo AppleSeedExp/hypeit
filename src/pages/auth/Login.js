@@ -65,7 +65,7 @@ const Login = ({ login, isAuthenticated }) => {
           value="Login"
         />
         <p className="my-1">
-          Don't have an account?
+          Don't you have an account?
           <Link to="/register" className="py-2 ring-blue-500">
             Sign Up
           </Link>

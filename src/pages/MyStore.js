@@ -36,16 +36,25 @@ import recurring from "../assets/recurring.png";
 import external from "../assets/url.png";
 import hype from "../assets/hype.png";
 import phone from "../assets/phone.png";
-
+import axios from "axios";
+import api from "../utils/api";
 import { Modal } from "@material-ui/core";
 import { useState } from "react";
+import { Store } from "state-pool";
 
 export const MyStore = () => {
   const [header, setHeader, updateHeader] = store.useState("Header");
 
   const [modal, setModal, updateOpen] = store.useState("ProductItemModal");
 
-  const [linkName, setLinkName] = useState("");
+  const [formData, setFormData] = useState({
+    linkURL: "",
+    title: "",
+  });
+
+  const [stores, setStores] = useState([]);
+
+  const { linkURL, title } = formData;
 
   const [image, setImage] = useState(null);
 
@@ -54,22 +63,50 @@ export const MyStore = () => {
       Open: false,
     });
 
-  const Upload = () => {
+  const Upload = async () => {
     handleClose();
+
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("linkURL", linkURL);
+    formData.append("title", title);
+
+    console.log("formData", formData);
+    await api.post("/store/link", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    setHeader("My store");
   };
 
   const onChange = (e) => {
-    setLinkName(e.target.value);
-    console.log(linkName);
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const UploadImage = (e) => {
     setImage(e.target.files[0]);
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+  };
+
   useEffect(() => {
-    setHeader("My Store");
-  }, []);
+    if (header == "My Store") {
+      let t_stores;
+
+      async function GetAllStores() {
+        t_stores = await api.get("/store/getAllStore");
+
+        console.log("res: ", t_stores.data);
+
+        setStores(t_stores.data);
+      }
+
+      GetAllStores();
+    } else {
+      setHeader("My Store");
+    }
+  }, [header]);
   return (
     <div className="p-[20px] flex">
       {header == "My Store" ? (
@@ -97,34 +134,39 @@ export const MyStore = () => {
               </div>
             </div>
 
+            {stores.map((storeItem, index) => (
+              <StoreItem
+                key={index}
+                img={storeItem.imgName}
+                title={storeItem.title}
+                price={storeItem.price}
+              />
+            ))}
+
             <StoreItem
               img={website}
               title="Official Website"
               price="FREE"
               icon={link}
             />
-
             <StoreItem
               img={podcast}
               title="My Podcast"
               price="FREE"
               icon={link}
             />
-
             <StoreItem
               img={tiktokstarterguide}
               title="Tiktok Starter Guide"
               price="FREE"
               icon={download}
             />
-
             <StoreItem
               img={videoaudit}
               title="Video Audit"
               price="$50.00"
               icon={box}
             />
-
             <StoreItem
               img={coaching}
               title="1:1 Coaching Call"
@@ -137,7 +179,6 @@ export const MyStore = () => {
               price="$200.00"
               icon={mail}
             />
-
             <div
               className="btn mt-6 flex justify-center items-center rounded-[10px]"
               onClick={() => {
@@ -316,7 +357,7 @@ export const MyStore = () => {
                   <div className="w-[200px] h-[200px] rounded-[100px] border-black border-[1px]">
                     {image ? (
                       <img
-                        src={URL.createObjectURL(image)}
+                        src={image}
                         className="w-[200px] h-[200px] rounded-[100px]"
                       ></img>
                     ) : (
@@ -324,11 +365,11 @@ export const MyStore = () => {
                     )}
                   </div>
                   <input
-                    type="file"
-                    accept="image/jpeg, image/png, image/jpg"
+                    filename={image}
                     onChange={UploadImage}
-                  />
-                  {/* <output></output> */}
+                    type="file"
+                    accept="image/*"
+                  ></input>
                 </div>
 
                 <div>
@@ -336,6 +377,10 @@ export const MyStore = () => {
                   <input
                     className="border-black border-[2px]"
                     type="text"
+                    value={title}
+                    placeholder="Title"
+                    name="title"
+                    onChange={onChange}
                   ></input>
                   <span>link</span>
 
@@ -343,7 +388,9 @@ export const MyStore = () => {
                     className="border-black border-[2px]"
                     id="inputvalue"
                     type="text"
-                    value={linkName}
+                    name="linkURL"
+                    placeholder="LinkURL"
+                    value={linkURL}
                     onChange={onChange}
                   ></input>
 
