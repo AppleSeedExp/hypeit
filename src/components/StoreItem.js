@@ -34,9 +34,9 @@ export const StoreItem = ({ img, title, price, icon }) => {
         onClick={() => {
           setShow(true);
         }}
-        onBlur={() => {
-          setShow(false);
-        }}
+        // onBlur={() => {
+        //   setShow(false);
+        // }}
       ></img>
 
       {show ? (
