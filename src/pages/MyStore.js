@@ -76,7 +76,7 @@ export const MyStore = () => {
     await api.post("/store/link", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-    setHeader("My store");
+    setHeader("Upload Store");
   };
 
   const onChange = (e) => {
@@ -103,9 +103,11 @@ export const MyStore = () => {
   }
 
   useEffect(() => {
-    setHeader("My Store");
-    GetAllStores();
-  }, []);
+    if (header == "Upload Store" || header == null) {
+      setHeader("My Store");
+      GetAllStores();
+    }
+  }, [header]);
   return (
     <div className="p-[20px] flex">
       {header == "My Store" ? (
@@ -133,14 +135,20 @@ export const MyStore = () => {
               </div>
             </div>
 
-            {stores.map((storeItem, index) => (
-              <StoreItem
-                key={index}
-                img={storeItem.imgName}
-                title={storeItem.title}
-                price={storeItem.price}
-              />
-            ))}
+            {stores.map((storeItem, index) => {
+              if (storeItem.isUnpublish == false)
+                return (
+                  <StoreItem
+                    key={index}
+                    img={storeItem.imgName}
+                    title={storeItem.title}
+                    price={storeItem.price}
+                    onDelete={() => {
+                      GetAllStores();
+                    }}
+                  />
+                );
+            })}
 
             {/* <StoreItem
               img={website}

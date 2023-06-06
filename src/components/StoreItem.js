@@ -9,13 +9,25 @@ import Modal from "react-modal";
 
 import { useEffect, useState } from "react";
 import { fileDownload as download } from "js-file-download";
+import api from "../utils/api";
 
-export const StoreItem = ({ img, title, price, icon }) => {
+export const StoreItem = ({ img, title, price, icon, onDelete }) => {
   const [show, setShow] = useState(false);
+  const [unpublished, setUnpublished] = useState(false);
 
-  const Unpublish = () => {};
+  const Unpublish = async () => {
+    let store = await api.get(`/store/${img}`);
+    setUnpublished(true);
+  };
 
-  return (
+  const Delete = async () => {
+    await api.delete(`/store/${img}`);
+    await onDelete();
+  };
+
+  return unpublished ? (
+    <></>
+  ) : (
     <div className="border-[1px] border-[#EBEBFF] rounded-[10px] p-[20px] shadow-lg flex items-center relative">
       <img src={option}></img>
       <img className="ml-6" src={`/images/${img}`} width={60}></img>
@@ -34,16 +46,16 @@ export const StoreItem = ({ img, title, price, icon }) => {
         onClick={() => {
           setShow(true);
         }}
-        onBlur={() => {
-          setShow(false);
-        }}
+        // onBlur={() => {
+        //   setShow(false);
+        // }}
       ></img>
 
       {show ? (
         <div className="absolute right-[50px] top-[50px] width-[100px] border-[1px] border-gray px-[30px] py-[10px] bg-white rounded-[10px] z-10">
           <div className="flex items-center gap-2">
             <img src={unpublish}></img>
-            <div className="text-[#00106D]" onClick={Unpublish}>
+            <div className="text-[#00106D] cursor-pointer" onClick={Unpublish}>
               Unpublish
             </div>
           </div>
@@ -51,9 +63,11 @@ export const StoreItem = ({ img, title, price, icon }) => {
             <img src={duplicate}></img>
             <div className="text-[#00106D]">Duplicate</div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 cursor-pointer">
             <img src={deletei}></img>
-            <div className="text-[#00106D]">Delete</div>
+            <div className="text-[#00106D]" onClick={Delete}>
+              Delete
+            </div>
           </div>
         </div>
       ) : (
